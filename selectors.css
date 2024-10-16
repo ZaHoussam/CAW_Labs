@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h2 {
+  color: purple;
+}
+
+body {
+  background-color: #bdc3c7;
+}
+
+h1 {
+  color: #9b59b6;
+  transition: 0.4s;
+}
+
+h1:hover {
+  color: red;
+}
+
+h2 {
+  color: orange;
+}
+
+ul li {
+  color: blue;
+}
+
+p {
+  background-color: yellow;
+}
+
+input {
+  border: 3px solid red;
+}
+
+.hello {
+  background-color: pink;
+}
+
+#special {
+  border: 2px solid blue;
+}
+
+#special::first-letter {
+  color: green;
+  font-size: 100px;
+}
+
+div p {
+  font-size: 25px;
+}
+
+input[type="text"] {
+  background-color: grey;
+}
+
+div:nth-of-type(3) p:last-child {
+  background-color: pink;
+  border: 5px solid #fff;
+}
+
+div:nth-child(3) em {
+  font-size: 20px;
+  color: #fff;
+}
+
+input[type="checkbox"] {
+  margin-left: 50px;
+}
+
+label {
+  text-transform: uppercase;
+}
+
+a:visited {
+  color: grey;
+}
