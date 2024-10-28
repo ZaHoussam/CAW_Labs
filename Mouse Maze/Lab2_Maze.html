@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Todo CSS File -->
+    <link rel="stylesheet" href="css/Lab2_maze.css" />
+    <title>Mouse Maze</title>
+  </head>
+  <body>
+    <div class="content">
+      <h1>The Amazing Mouse Maze!</h1>
+      <h2 id="status">Move your mouse over the "S" to begin.</h2>
+      <div id="maze">
+        <div id="start">S</div>
+        <div class="boundary" id="boundary1"></div>
+        <div class="boundary"></div>
+        <div class="boundary"></div>
+        <div class="boundary"></div>
+        <div class="boundary"></div>
+        <div id="end">E</div>
+      </div>
+      <div class="timer">00:00</div>
+      <p>
+        The object of this game is to guide the mouse cursor through the start
+        area and get to the end area. Be sure to avoid the walls:
+      </p>
+      <div class="boundary example"></div>
+      <div class="card lose">
+        <span class="img">
+          <img src="img/lose.png" alt="lose" />
+        </span>
+        <span class="txt">lose</span>
+      </div>
+      <div class="card win">
+        <span class="img">
+          <img src="img/win.png" alt="win" />
+        </span>
+        <span class="txt">Congratulation</span>
+      </div>
+      <p>Good luck!</p>
+    </div>
+    <!-- Todo JS File -->
+    <script src="js/maze.js"></script>
+  </body>
+</html>
