@@ -1,6 +1,7 @@
 const mean = (arr) => {
   const arrSum = arr.reduce((acc, score) => acc + score);
-  return arrSum / arr.length;
+  const result = arrSum / arr.length;
+  return result;
 };
 
-module.exports = { mean };
+module.exports = mean;

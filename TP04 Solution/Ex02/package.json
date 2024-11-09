@@ -1,0 +1,14 @@
+{
+  "name": "jest",
+  "version": "29.7.0",
+  "description": "",
+  "main": "chunkFunc.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Zaouche Houssam Eddine Mostafa / Kellil Raied",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

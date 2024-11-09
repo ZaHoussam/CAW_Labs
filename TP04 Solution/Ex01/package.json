@@ -1,0 +1,14 @@
+{
+  "name": "jest_testing",
+  "version": "29.7.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "DymaWeb",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
