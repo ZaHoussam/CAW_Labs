@@ -1,0 +1,116 @@
+/* App.css */
+
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Component styles */
+.container {
+  max-width: 800px;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+}
+
+h3 {
+  color: #007bff;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  font-size: 1.2em;
+  color: #555;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+li {
+  background-color: #fff;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+li:hover {
+  background-color: #e9ecef;
+}
+
+h1 {
+  text-align: center;
+  color: #007bff;
+}
+
+/* Additional styles for Exercise 3 and 4 */
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+input {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+ul {
+  margin: 10px 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li button {
+  background-color: #dc3545; /* Red for delete buttons */
+}
+
+li button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* Styles for the dynamic divs */
+div {
+  margin: 10px 0;
+}
