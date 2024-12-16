@@ -1,0 +1,18 @@
+.btn {
+  padding: 8px 15px;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  border-radius: 50px;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  transition: var(--duration);
+}
+
+.btn:hover {
+  background-color: var(--secondary-color);
+}

@@ -1,0 +1,84 @@
+.checkbox {
+  --ease: ease-in-out;
+}
+
+/* hide checkbox */
+.checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox label {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+
+.checkbox label span {
+  margin-left: 8px;
+}
+
+.checkbox svg {
+  height: 30px;
+  width: 30px;
+}
+
+/* svg rectangle property */
+.checkbox svg > rect {
+  fill: var(var(--light-color));
+  stroke: var(--primary-color);
+  /* responsive values */
+  stroke-dasharray: 400%;
+  stroke-dashoffset: 400%;
+  transition: var(--duration) stroke-dashoffset var(--ease);
+}
+
+/* svg check property */
+.checkbox svg path {
+  stroke: var(--primary-color);
+  /* responsive values */
+  stroke-dasharray: 100%;
+  stroke-dashoffset: 100%;
+  transition: var(--duration) stroke-dashoffset var(--ease);
+}
+
+.checkbox input[type="checkbox"]:checked + label svg > rect,
+.checkbox input[type="checkbox"]:checked + label svg path {
+  stroke-dashoffset: 0;
+}
+
+.new_order {
+  width: 60%;
+  margin: 30px auto;
+}
+
+.new_order .form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px 0;
+}
+
+.new_order .form .input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.new_order .form .input_header {
+  font-size: 20px;
+  color: var(--dark-color);
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+
+.new_order .form .input input:not([type="checkbox"]) {
+  width: 70%;
+  height: 50px;
+  border-radius: 50px;
+  outline: none;
+  border: 2px solid transparent;
+  transition: var(--duration);
+  padding: 20px;
+  font-size: 18px;
+  color: var(--dark-color);
+}
