@@ -20,6 +20,7 @@
 .checkbox svg {
   height: 30px;
   width: 30px;
+  border: 2px solid var(--secondary-color);
 }
 
 /* svg rectangle property */
@@ -81,4 +82,23 @@
   padding: 20px;
   font-size: 18px;
   color: var(--dark-color);
+}
+
+.new_order .form input[type="submit"] {
+  width: fit-content;
+  padding: 20px 20px;
+  font-size: 16px;
+  color: var(--dark-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: var(--primary-color);
+  border-radius: 50px;
+  border: 2px solid var(--secondary-color);
+  cursor: pointer;
+  transition: var(--duration);
+  font-weight: 600;
+}
+
+.new_order .form input[type="submit"]:hover {
+  background-color: var(--secondary-color);
 }

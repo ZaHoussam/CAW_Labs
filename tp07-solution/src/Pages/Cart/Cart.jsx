@@ -1,29 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
-import style from "./Cart.module.css";
 import { useContext } from "react";
 import { AppContext } from "../../Context/AppProvider";
 import { Button } from "../../Components/index";
+import style from "./Cart.module.css";
 
 const Cart = () => {
   const { data, numOrder, username, setNumOrder } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const add = (id) => {
+  const updateItemCount = (id, delta) => {
     setNumOrder((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, count: item.count + 1 } : item
-      )
-    );
-  };
-
-  const increase = (id) => {
-    setNumOrder(
-      (prevItems) =>
-        prevItems
-          .map((item) =>
-            item.id === id ? { ...item, count: item.count - 1 } : item
-          )
-          .filter((item) => item.count > 0) // Remove items with count <= 0
+      prevItems
+        .map((item) =>
+          item.id === id ? { ...item, count: item.count + delta } : item
+        )
+        .filter((item) => item.count > 0)
     );
   };
 
@@ -31,10 +22,14 @@ const Cart = () => {
     setNumOrder((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
+  const clearCart = () => {
+    setNumOrder([]);
+  };
+
   if (!username) {
     return (
       <div className={style.message}>
-        <h4 className={style.title}>You have create an account</h4>
+        <h4 className={style.title}>You need to create an account</h4>
         <Link to="/" className={style.link}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -46,17 +41,39 @@ const Cart = () => {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="feather feather-arrow-left-circle"
           >
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 8 8 12 12 16"></polyline>
             <line x1="16" y1="12" x2="8" y2="12"></line>
           </svg>
-          <span className="txt">back to home</span>
+          <span className="txt">Back to home</span>
         </Link>
       </div>
     );
   }
+
+  const renderCartItems = () =>
+    data
+      .filter((item) => numOrder.some((order) => order.id === item.id))
+      .map((item) => {
+        const orderItem = numOrder.find((order) => order.id === item.id);
+        return (
+          <li className={style.item} key={item.id}>
+            <span className={style.title}>
+              {`${orderItem.count} x ${item.name}`}
+            </span>
+            <div className={style.action}>
+              <span className={style.price}>
+                {`$${item.price * orderItem.count}`}
+              </span>
+              <Button btn="-" onClick={() => updateItemCount(item.id, -1)} />
+              {orderItem.count}
+              <Button btn="+" onClick={() => updateItemCount(item.id, 1)} />
+              <Button btn="delete" onClick={() => removeItem(item.id)} />
+            </div>
+          </li>
+        );
+      });
 
   return (
     <section className={style.cart}>
@@ -71,54 +88,24 @@ const Cart = () => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="feather feather-arrow-left-circle"
         >
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 8 8 12 12 16"></polyline>
           <line x1="16" y1="12" x2="8" y2="12"></line>
         </svg>
-        <span className="txt">back to menu</span>
+        <span className="txt">Back to menu</span>
       </Link>
       {numOrder.length > 0 ? (
         <>
-          <ul className={style.cart_content}>
-            {data
-              .filter((item1) =>
-                numOrder.some((item2) => item1.id === item2.id)
-              )
-              .map((item, index) => (
-                <li className={style.item} key={item.id}>
-                  <span
-                    className={style.title}
-                  >{`${numOrder[index].count} x ${item.name}`}</span>
-                  <div className={style.action}>
-                    <span className={style.price}>
-                      {`$${item.price * numOrder[index].count}`}
-                    </span>
-                    <Button btn="-" onClick={() => increase(item.id)} />
-                    {numOrder[index].count}
-                    <Button btn="+" onClick={() => add(item.id)} />
-                    <Button
-                      btn="delete"
-                      onClick={() => {
-                        removeItem(item.id);
-                      }}
-                    />
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <ul className={style.cart_content}>{renderCartItems()}</ul>
           <div className={style.btns}>
-            <Button btn="order pizzas" onClick={() => navigate("/order/new")} />
-            <Button
-              btn="clear cart"
-              onClick={() => {
-                setNumOrder([]);
-              }}
-            />
+            <Button btn="Order Pizzas" onClick={() => navigate("/order/new")} />
+            <Button btn="Clear Cart" onClick={clearCart} />
           </div>
         </>
-      ) : null}
+      ) : (
+        <div className={style.emptyCart}>Your cart is empty!</div>
+      )}
     </section>
   );
 };

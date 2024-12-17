@@ -75,3 +75,10 @@
   background-color: #e0e0e0;
   border-color: #e0e0e0;
 }
+
+.cart .emptyCart {
+  padding: 20px 0;
+  font-size: 18px;
+  color: var(--dark-color);
+  font-weight: 500;
+}

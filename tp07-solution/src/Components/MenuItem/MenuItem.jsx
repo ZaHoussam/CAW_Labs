@@ -1,6 +1,6 @@
 import style from "./MenuItem.module.css";
 import { Button } from "../../Components/index";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../Context/AppProvider";
 
 const MenuItem = ({ id, name, image, ingredients, price }) => {
@@ -8,36 +8,49 @@ const MenuItem = ({ id, name, image, ingredients, price }) => {
   const [btn, setBtn] = useState("add to cart");
   const [count, setCount] = useState(0);
 
-  const handelButton = (btn = btn, id) => {
+  useEffect(() => {
+    const existingItem = numOrder.find((item) => item.id === id);
+    if (existingItem) {
+      setBtn("delete");
+      setCount(existingItem.count);
+    }
+  }, [id, numOrder]);
+
+  useEffect(() => {
+    localStorage.setItem("numOrder", JSON.stringify(numOrder));
+  }, [numOrder]);
+
+  const handelButton = (btn, id) => {
     if (btn === "add to cart") {
-      const item = { id: id, count: count + 1 };
+      const item = { id: id, count: 1 };
       setNumOrder([...numOrder, item]);
       setBtn("delete");
-      setCount(count + 1);
-    }
-    if (btn === "delete") {
+      setCount(1);
+    } else if (btn === "delete") {
       setNumOrder((prevItems) => prevItems.filter((item) => item.id !== id));
       setBtn("add to cart");
+      setCount(0);
     }
   };
 
   const add = (id) => {
-    setCount(count + 1);
+    setCount((prevCount) => prevCount + 1);
     setNumOrder((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, count: count } : item
+        item.id === id ? { ...item, count: count + 1 } : item
       )
     );
   };
 
   const increase = (id) => {
-    if (count === 0) {
-      return false;
+    if (count === 1) {
+      handelButton("delete", id);
+      return;
     }
-    setCount(count - 1);
+    setCount((prevCount) => prevCount - 1);
     setNumOrder((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, count: count } : item
+        item.id === id ? { ...item, count: count - 1 } : item
       )
     );
   };
@@ -46,25 +59,24 @@ const MenuItem = ({ id, name, image, ingredients, price }) => {
     <div className={style.card}>
       <img src={image} alt={`pizza-${id}`} />
       <div className={style.info}>
-        <h3 className={style.title}>{name}</h3>
-        <span className={style.ingrediants}>
+        <h3>{name}</h3>
+        <p>
           {ingredients.map((ing, i) => (
-            <React.Fragment key={i}>{`${ing}, `}</React.Fragment>
+            <React.Fragment key={i}>{`${ing}${
+              i < ingredients.length - 1 ? ", " : ""
+            }`}</React.Fragment>
           ))}
-        </span>
+        </p>
         <div className={style.action}>
           <span className={style.price}>{`$${price}`}</span>
           <div className={style.addCart}>
-            {Array.isArray(numOrder) &&
-              numOrder.map((item) =>
-                item.id === id ? (
-                  <div className={style.addIncrease} key={item.id}>
-                    <Button btn="-" onClick={() => increase(id)} />
-                    {item.count}
-                    <Button btn="+" onClick={() => add(id)} />
-                  </div>
-                ) : null
-              )}
+            {btn === "delete" ? (
+              <div className={style.addCart}>
+                <Button btn="-" onClick={() => increase(id)} />
+                {count}
+                <Button btn="+" onClick={() => add(id)} />
+              </div>
+            ) : null}
             <Button
               btn={btn}
               onClick={() => {

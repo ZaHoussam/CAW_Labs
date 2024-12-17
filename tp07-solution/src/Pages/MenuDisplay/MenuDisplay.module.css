@@ -511,3 +511,32 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.link {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  text-transform: capitalize;
+  color: var(--dark-color);
+  transition: var(--duration);
+}
+
+.link:hover {
+  color: var(--primary-color);
+}
+
+.message {
+  width: 100%;
+  height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.message .title {
+  font-size: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
