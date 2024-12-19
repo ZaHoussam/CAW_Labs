@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Context/AppProvider";
 import style from "./NewOrder.module.css";
@@ -6,15 +6,19 @@ import style from "./NewOrder.module.css";
 const NewOrder = () => {
   const { username, numOrder, data } = useContext(AppContext);
   const navigate = useNavigate();
-
-  const totalPrice = numOrder.reduce((acc, order) => {
-    const item = data.find((product) => product.id === order.id);
-    return acc + (item ? item.price * order.count : 0);
-  }, 0);
-
+  const [baseTotalPrice, setBaseTotalPrice] = useState(0);
+  const [isPriority, setIsPriority] = useState(false);
+  const priorityPrice = 5.0;
+  useEffect(() => {
+    const total = numOrder.reduce((acc, order) => {
+      const item = data.find((product) => product.id === order.id);
+      return acc + (item ? item.price * order.count : 0);
+    }, 0);
+    setBaseTotalPrice(total + (isPriority ? priorityPrice : 0));
+  }, [numOrder, data, isPriority]);
   const generateOrderId = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toLowerCase();
-    let id = "#";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let id = "";
     for (let i = 0; i < 8; i++) {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
@@ -22,28 +26,36 @@ const NewOrder = () => {
   };
 
   const isValidPhoneNumber = (phone) => {
-    const phoneRegex = /^\d+$/; // Only numbers
+    const phoneRegex = /^\d+$/;
     return phoneRegex.test(phone);
+  };
+
+  const handlePriorityChange = (e) => {
+    setIsPriority(e.target.checked);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const phone = e.target.phone.value;
-
     if (!isValidPhoneNumber(phone)) {
-      alert("Please enter a valid phone number.");
+      alert("Please enter a valid phone number containing only digits.");
       return;
     }
-
     const orderId = generateOrderId();
+    const encodedOrderId = encodeURIComponent(orderId);
+    const finalTotalPrice = baseTotalPrice;
     const formData = {
       name: e.target.name.value,
       phone,
       address: e.target.address.value,
       orderId,
-      totalPrice,
+      baseTotalPrice: finalTotalPrice - (isPriority ? priorityPrice : 0),
+      priorityPrice: isPriority ? priorityPrice : 0,
+      totalPrice: finalTotalPrice,
+      isPriority,
+      orderTime: Date.now(),
     };
-    navigate(`/order/${orderId}`, { state: formData });
+    navigate(`/order/${encodedOrderId}`, { state: formData });
   };
 
   return (
@@ -59,8 +71,8 @@ const NewOrder = () => {
           <input
             type="tel"
             name="phone"
-            pattern="\d+" // Ensures only numbers
-            title="Please enter a valid phone number with only digits."
+            pattern="\d+"
+            title="Phone number should contain only digits."
             required
           />
         </div>
@@ -69,7 +81,13 @@ const NewOrder = () => {
           <input type="text" name="address" required />
         </div>
         <div className={`${style.input} ${style.checkbox}`}>
-          <input id="form-checkbox-1" name="priority" type="checkbox" />
+          <input
+            id="form-checkbox-1"
+            name="priority"
+            type="checkbox"
+            checked={isPriority}
+            onChange={handlePriorityChange}
+          />
           <label htmlFor="form-checkbox-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,13 +105,13 @@ const NewOrder = () => {
               ></rect>
               <path strokeWidth="15" d="M52 111.018L76.9867 136L149 64"></path>
             </svg>
-            <span>Want to give your order priority?</span>
+            <span>Want to give your order priority? (+$5.00)</span>
           </label>
         </div>
         <input
           type="submit"
           className={style.submit_btn}
-          value={`Order for now: $${totalPrice.toFixed(2)}`}
+          value={`Order for now: $${baseTotalPrice.toFixed(2)}`}
         />
       </form>
     </section>
