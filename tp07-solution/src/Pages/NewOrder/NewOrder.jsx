@@ -4,11 +4,12 @@ import { AppContext } from "../../Context/AppProvider";
 import style from "./NewOrder.module.css";
 
 const NewOrder = () => {
-  const { username, numOrder, data } = useContext(AppContext);
+  const { username, numOrder, setNumOrder, data } = useContext(AppContext); // Include setNumOrder from context
   const navigate = useNavigate();
   const [baseTotalPrice, setBaseTotalPrice] = useState(0);
   const [isPriority, setIsPriority] = useState(false);
-  const priorityPrice = 5.0;
+  const priorityPrice = 22.0;
+
   useEffect(() => {
     const total = numOrder.reduce((acc, order) => {
       const item = data.find((product) => product.id === order.id);
@@ -16,6 +17,7 @@ const NewOrder = () => {
     }, 0);
     setBaseTotalPrice(total + (isPriority ? priorityPrice : 0));
   }, [numOrder, data, isPriority]);
+
   const generateOrderId = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let id = "";
@@ -41,9 +43,11 @@ const NewOrder = () => {
       alert("Please enter a valid phone number containing only digits.");
       return;
     }
+
     const orderId = generateOrderId();
     const encodedOrderId = encodeURIComponent(orderId);
     const finalTotalPrice = baseTotalPrice;
+
     const formData = {
       name: e.target.name.value,
       phone,
@@ -54,7 +58,13 @@ const NewOrder = () => {
       totalPrice: finalTotalPrice,
       isPriority,
       orderTime: Date.now(),
+      numOrder: numOrder,
+      data: data,
     };
+
+    // Clear numOrder after submission
+    setNumOrder([]);
+
     navigate(`/order/${encodedOrderId}`, { state: formData });
   };
 
